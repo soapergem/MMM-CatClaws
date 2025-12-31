@@ -1,0 +1,27 @@
+{
+  "name": "mmm-catclaws",
+  "version": "1.0.0",
+  "description": "A MagicMirror² module",
+  "main": "MMM-CatClaws.js",
+  "keywords": [
+    "magic mirror",
+    "magicmirror",
+    "module",
+    "smart mirror"
+  ],
+  "author": "gmyers",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gmyers/cat-claws.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gmyers/cat-claws/issues"
+  },
+  "homepage": "https://github.com/gmyers/cat-claws#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
