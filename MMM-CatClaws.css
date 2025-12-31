@@ -30,6 +30,24 @@
 	transition: all 0.3s ease;
 	cursor: pointer;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+	clip-path: polygon(
+		0% 10%,
+		0% 90%,
+		10% 100%,
+		90% 100%,
+		100% 90%,
+		100% 10%,
+		95% 5%,
+		85% 0%,
+		75% 5%,
+		65% 0%,
+		55% 2%,
+		45% 2%,
+		35% 0%,
+		25% 5%,
+		15% 0%,
+		5% 5%
+	);
 }
 
 .mmm-catclaws .cat-tile:hover {
