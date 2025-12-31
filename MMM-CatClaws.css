@@ -30,24 +30,7 @@
 	transition: all 0.3s ease;
 	cursor: pointer;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-	clip-path: polygon(
-		0% 10%,
-		0% 90%,
-		10% 100%,
-		90% 100%,
-		100% 90%,
-		100% 10%,
-		95% 5%,
-		85% 0%,
-		75% 5%,
-		65% 0%,
-		55% 2%,
-		45% 2%,
-		35% 0%,
-		25% 5%,
-		15% 0%,
-		5% 5%
-	);
+	clip-path: path('M 14 0 Q 14 8, 20 12 Q 26 8, 26 0 L 114 0 Q 114 8, 120 12 Q 126 8, 126 0 L 130 0 L 140 10 L 140 130 L 130 140 L 10 140 L 0 130 L 0 10 L 10 0 Z');
 }
 
 .mmm-catclaws .cat-tile:hover {
