@@ -93,10 +93,15 @@ Module.register("MMM-CatClaws", {
 			undoTile.classList.add("hidden");
 		}
 
-		const undoText = document.createElement("div");
-		undoText.className = "cat-name";
-		undoText.innerHTML = "\u21BA";
+		const undoSymbol = document.createElement("div");
+		undoSymbol.className = "cat-name";
+		undoSymbol.innerHTML = "\u21BA";
 
+		const undoText = document.createElement("div");
+		undoText.className = "cat-date";
+		undoText.innerHTML = "Undo";
+
+		undoTile.appendChild(undoSymbol);
 		undoTile.appendChild(undoText);
 
 		// Add click handler for undo
