@@ -12,6 +12,7 @@ Module.register("MMM-CatClaws", {
 		this.undoData = null; // {catName: string, previousDate: string}
 		this.undoVisible = false;
 		this.undoTimer = null;
+		this.undoTileElement = null; // Store reference to undo tile DOM element
 		this.initializeData();
 		this.scheduleUpdate();
 	},
@@ -104,6 +105,9 @@ Module.register("MMM-CatClaws", {
 			self.handleUndoClick();
 		});
 
+		// Store reference to the undo tile
+		this.undoTileElement = undoTile;
+
 		tilesContainer.appendChild(undoTile);
 
 		wrapper.appendChild(tilesContainer);
@@ -149,14 +153,18 @@ Module.register("MMM-CatClaws", {
 
 		// Show the undo tile
 		this.undoVisible = true;
-		this.updateDom();
+		if (this.undoTileElement) {
+			this.undoTileElement.classList.remove("hidden");
+		}
 
 		// Hide after 10 seconds
 		const self = this;
 		this.undoTimer = setTimeout(function() {
 			self.undoVisible = false;
 			self.undoData = null;
-			self.updateDom();
+			if (self.undoTileElement) {
+				self.undoTileElement.classList.add("hidden");
+			}
 		}, 10000);
 	},
 
@@ -177,7 +185,9 @@ Module.register("MMM-CatClaws", {
 			// Hide the undo tile
 			this.undoVisible = false;
 			this.undoData = null;
-			this.updateDom();
+			if (this.undoTileElement) {
+				this.undoTileElement.classList.add("hidden");
+			}
 		}
 	},
 
