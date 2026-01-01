@@ -68,11 +68,20 @@ module.exports = NodeHelper.create({
 		this.sendSocketNotification("DATA_LOADED", data);
 	},
 
-	updateCatDate: function(catName) {
+	updateCatDate: function(payload) {
 		const data = this.loadData();
-		const today = new Date().toISOString().split('T')[0];
 
-		data[catName] = today;
+		// Handle both string (cat name only) and object (cat name + date)
+		let catName, date;
+		if (typeof payload === 'string') {
+			catName = payload;
+			date = new Date().toISOString().split('T')[0];
+		} else {
+			catName = payload.catName;
+			date = payload.date || new Date().toISOString().split('T')[0];
+		}
+
+		data[catName] = date;
 
 		if (this.saveData(data)) {
 			this.sendSocketNotification("DATA_UPDATED", data);

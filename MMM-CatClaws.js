@@ -9,6 +9,9 @@ Module.register("MMM-CatClaws", {
 		this.loaded = false;
 		this.catData = {};
 		this.previousCats = [];
+		this.undoData = null; // {catName: string, previousDate: string}
+		this.undoVisible = false;
+		this.undoTimer = null;
 		this.initializeData();
 		this.scheduleUpdate();
 	},
@@ -23,8 +26,9 @@ Module.register("MMM-CatClaws", {
 		const today = new Date();
 		today.setHours(0, 0, 0, 0);
 
-		const catDate = new Date(dateString);
-		catDate.setHours(0, 0, 0, 0);
+		// Parse date string as local time to avoid timezone issues
+		const [year, month, day] = dateString.split('-').map(Number);
+		const catDate = new Date(year, month - 1, day);
 
 		const diffTime = today - catDate;
 		const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
@@ -81,6 +85,27 @@ Module.register("MMM-CatClaws", {
 			tilesContainer.appendChild(tile);
 		});
 
+		// Add undo tile
+		const undoTile = document.createElement("div");
+		undoTile.className = "cat-tile undo-tile";
+		if (!this.undoVisible) {
+			undoTile.classList.add("hidden");
+		}
+
+		const undoText = document.createElement("div");
+		undoText.className = "cat-name";
+		undoText.innerHTML = "\u21BA";
+
+		undoTile.appendChild(undoText);
+
+		// Add click handler for undo
+		const self = this;
+		undoTile.addEventListener("click", () => {
+			self.handleUndoClick();
+		});
+
+		tilesContainer.appendChild(undoTile);
+
 		wrapper.appendChild(tilesContainer);
 		return wrapper;
 	},
@@ -106,7 +131,54 @@ Module.register("MMM-CatClaws", {
 	},
 
 	handleTileClick: function(catName) {
+		// Store the previous date for undo
+		this.undoData = {
+			catName: catName,
+			previousDate: this.catData[catName]
+		};
+
 		this.sendSocketNotification("UPDATE_CAT_DATE", catName);
+		this.showUndoTile();
+	},
+
+	showUndoTile: function() {
+		// Clear any existing timer
+		if (this.undoTimer) {
+			clearTimeout(this.undoTimer);
+		}
+
+		// Show the undo tile
+		this.undoVisible = true;
+		this.updateDom();
+
+		// Hide after 10 seconds
+		const self = this;
+		this.undoTimer = setTimeout(function() {
+			self.undoVisible = false;
+			self.undoData = null;
+			self.updateDom();
+		}, 10000);
+	},
+
+	handleUndoClick: function() {
+		if (this.undoData) {
+			// Clear the timer
+			if (this.undoTimer) {
+				clearTimeout(this.undoTimer);
+				this.undoTimer = null;
+			}
+
+			// Send update with the previous date
+			this.sendSocketNotification("UPDATE_CAT_DATE", {
+				catName: this.undoData.catName,
+				date: this.undoData.previousDate
+			});
+
+			// Hide the undo tile
+			this.undoVisible = false;
+			this.undoData = null;
+			this.updateDom();
+		}
 	},
 
 	notificationReceived: function(notification, payload, sender) {

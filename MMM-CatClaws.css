@@ -65,3 +65,24 @@
 	text-align: center;
 	font-style: italic;
 }
+
+.mmm-catclaws .undo-tile {
+	background-color: rgba(255, 165, 0, 0.3);
+	border-color: rgba(255, 165, 0, 0.6);
+	opacity: 1;
+	transition: opacity 1s ease-out;
+}
+
+.mmm-catclaws .undo-tile .cat-name {
+	font-size: 3rem;
+}
+
+.mmm-catclaws .undo-tile:hover {
+	background-color: rgba(255, 165, 0, 0.4);
+	border-color: rgba(255, 165, 0, 0.8);
+}
+
+.mmm-catclaws .undo-tile.hidden {
+	opacity: 0;
+	pointer-events: none;
+}
