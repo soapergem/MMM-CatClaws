@@ -2,7 +2,7 @@
 
 A MagicMirror² module for tracking cat care tasks. Display clickable tiles for each of your cats to track when you last clipped their claws. Tiles show how many days ago each cat was last attended to, with overdue dates highlighted in red to help you stay on top of your feline care routine.
 
-[Screenshot](docs/catclaws.png)
+![Screenshot](docs/catclaws.png)
 
 Because of the clickable tile functionality, this module is intended for touchscreen devices.
 
