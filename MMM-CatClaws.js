@@ -1,6 +1,7 @@
 Module.register("MMM-CatClaws", {
 	defaults: {
 		cats: [],
+		overdueDays: 8,
 		undoTimeout: 10000
 	},
 
@@ -21,8 +22,8 @@ Module.register("MMM-CatClaws", {
 		this.sendSocketNotification("INIT_DATA", this.config.cats);
 	},
 
-	formatDateDifference: function(dateString) {
-		if (!dateString) return "Loading...";
+	getDaysDifference: function(dateString) {
+		if (!dateString) return null;
 
 		const today = new Date();
 		today.setHours(0, 0, 0, 0);
@@ -32,7 +33,13 @@ Module.register("MMM-CatClaws", {
 		const catDate = new Date(year, month - 1, day);
 
 		const diffTime = today - catDate;
-		const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+		return Math.floor(diffTime / (1000 * 60 * 60 * 24));
+	},
+
+	formatDateDifference: function(dateString) {
+		if (!dateString) return "Loading...";
+
+		const diffDays = this.getDaysDifference(dateString);
 
 		if (diffDays === 0) {
 			return "Today";
@@ -74,6 +81,12 @@ Module.register("MMM-CatClaws", {
 			const catDate = document.createElement("div");
 			catDate.className = "cat-date";
 			catDate.innerHTML = this.formatDateDifference(this.catData[cat]);
+
+			// Check if date is overdue and apply CSS class
+			const daysDiff = this.getDaysDifference(this.catData[cat]);
+			if (daysDiff !== null && daysDiff >= this.config.overdueDays) {
+				catDate.classList.add("overdue");
+			}
 
 			tile.appendChild(catName);
 			tile.appendChild(catDate);

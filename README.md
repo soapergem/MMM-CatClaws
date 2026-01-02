@@ -1,6 +1,6 @@
 # MMM-CatClaws
 
-A MagicMirror² module.
+A MagicMirror² module for tracking cat care tasks. Display clickable tiles for each of your cats to track when you last clipped their claws. Tiles show how many days ago each cat was last attended to, with overdue dates highlighted in red to help you stay on top of your feline care routine.
 
 ## Installation
 
@@ -11,7 +11,7 @@ cd ~/MagicMirror/modules
 
 2. Clone this repository:
 ```bash
-git clone https://github.com/gmyers/cat-claws.git MMM-CatClaws
+git clone https://github.com/soapergem/cat-claws.git MMM-CatClaws
 ```
 
 3. Navigate to the module folder and install dependencies:
@@ -27,9 +27,11 @@ Add the module to your MagicMirror's `config.js` file:
 ```javascript
 {
     module: "MMM-CatClaws",
-    position: "top_right",
+    position: "bottom_bar",
+    header: "Cat Claws Last Clipped",
     config: {
-        cats: ["Whiskers", "Mittens", "Shadow"],  // Array of cat names
+        cats: ["Mittens", "Shadow", "Whiskers"],  // Array of cat names
+        overdueDays: 8,  // Days before a date is considered overdue
         undoTimeout: 10000  // Time in ms to show undo option (0 to disable)
     }
 }
@@ -40,11 +42,8 @@ Add the module to your MagicMirror's `config.js` file:
 | Option | Description | Default |
 |--------|-------------|---------|
 | `cats` | Array of cat names (strings) | `[]` (empty array) |
+| `overdueDays` | Number of days before a date is considered overdue and displayed in red | `8` |
 | `undoTimeout` | Time in milliseconds to show undo option after clicking a tile. Set to `0` to disable undo functionality. | `10000` (10 seconds) |
-
-## Development
-
-This module is currently in development. More features and options will be added.
 
 ## License
 

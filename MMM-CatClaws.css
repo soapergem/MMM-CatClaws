@@ -59,6 +59,10 @@
 	margin-top: auto;
 }
 
+.mmm-catclaws .cat-date.overdue {
+	color: #c0392b;
+}
+
 .mmm-catclaws .no-data {
 	color: #999;
 	padding: 20px;
