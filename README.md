@@ -15,7 +15,7 @@ cd ~/MagicMirror/modules
 
 2. Clone this repository:
 ```bash
-git clone https://github.com/soapergem/cat-claws.git MMM-CatClaws
+git clone https://github.com/soapergem/MMM-CatClaws.git MMM-CatClaws
 ```
 
 3. Navigate to the module folder and install dependencies:
