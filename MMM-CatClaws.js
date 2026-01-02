@@ -1,7 +1,7 @@
 Module.register("MMM-CatClaws", {
 	defaults: {
-		updateInterval: 60000,
-		cats: []
+		cats: [],
+		undoTimeout: 10000
 	},
 
 	start: function() {
@@ -9,7 +9,7 @@ Module.register("MMM-CatClaws", {
 		this.loaded = false;
 		this.catData = {};
 		this.previousCats = [];
-		this.undoData = null; // {catName: string, previousDate: string}
+		this.undoData = {}; // Hash of {catName: previousDate} for undo
 		this.undoVisible = false;
 		this.undoTimer = null;
 		this.undoTileElement = null; // Store reference to undo tile DOM element
@@ -125,14 +125,27 @@ Module.register("MMM-CatClaws", {
 
 	scheduleUpdate: function() {
 		const self = this;
-		setInterval(function() {
+
+		// Calculate milliseconds until the next top of the minute
+		const now = new Date();
+		const msUntilNextMinute = (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
+
+		// Function to perform the update
+		function doUpdate() {
 			// Check if config changed
 			if (JSON.stringify(self.config.cats) !== JSON.stringify(self.previousCats)) {
 				self.previousCats = [...self.config.cats];
 				self.initializeData();
 			}
 			self.updateDom();
-		}, this.config.updateInterval);
+		}
+
+		// Schedule first update at the top of the next minute
+		setTimeout(function() {
+			doUpdate();
+			// Then continue updating every minute
+			setInterval(doUpdate, 60000);
+		}, msUntilNextMinute);
 
 		this.loaded = true;
 		this.previousCats = [...this.config.cats];
@@ -140,17 +153,21 @@ Module.register("MMM-CatClaws", {
 	},
 
 	handleTileClick: function(catName) {
-		// Store the previous date for undo
-		this.undoData = {
-			catName: catName,
-			previousDate: this.catData[catName]
-		};
+		// Store the previous date for undo (only if not already stored)
+		if (!(catName in this.undoData)) {
+			this.undoData[catName] = this.catData[catName];
+		}
 
 		this.sendSocketNotification("UPDATE_CAT_DATE", catName);
 		this.showUndoTile();
 	},
 
 	showUndoTile: function() {
+		// If undo timeout is 0, don't show undo functionality
+		if (this.config.undoTimeout === 0) {
+			return;
+		}
+
 		// Clear any existing timer
 		if (this.undoTimer) {
 			clearTimeout(this.undoTimer);
@@ -162,34 +179,36 @@ Module.register("MMM-CatClaws", {
 			this.undoTileElement.classList.remove("hidden");
 		}
 
-		// Hide after 10 seconds
+		// Hide after configured timeout
 		const self = this;
 		this.undoTimer = setTimeout(function() {
 			self.undoVisible = false;
-			self.undoData = null;
+			self.undoData = {};
 			if (self.undoTileElement) {
 				self.undoTileElement.classList.add("hidden");
 			}
-		}, 10000);
+		}, this.config.undoTimeout);
 	},
 
 	handleUndoClick: function() {
-		if (this.undoData) {
+		if (Object.keys(this.undoData).length > 0) {
 			// Clear the timer
 			if (this.undoTimer) {
 				clearTimeout(this.undoTimer);
 				this.undoTimer = null;
 			}
 
-			// Send update with the previous date
-			this.sendSocketNotification("UPDATE_CAT_DATE", {
-				catName: this.undoData.catName,
-				date: this.undoData.previousDate
-			});
+			// Restore all cats to their previous dates
+			for (const catName in this.undoData) {
+				this.sendSocketNotification("UPDATE_CAT_DATE", {
+					catName: catName,
+					date: this.undoData[catName]
+				});
+			}
 
 			// Hide the undo tile
 			this.undoVisible = false;
-			this.undoData = null;
+			this.undoData = {};
 			if (this.undoTileElement) {
 				this.undoTileElement.classList.add("hidden");
 			}

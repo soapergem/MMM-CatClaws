@@ -29,8 +29,8 @@ Add the module to your MagicMirror's `config.js` file:
     module: "MMM-CatClaws",
     position: "top_right",
     config: {
-        updateInterval: 60000,  // Update interval in milliseconds (default: 60000)
-        cats: ["Whiskers", "Mittens", "Shadow"]  // Array of cat names
+        cats: ["Whiskers", "Mittens", "Shadow"],  // Array of cat names
+        undoTimeout: 10000  // Time in ms to show undo option (0 to disable)
     }
 }
 ```
@@ -39,8 +39,8 @@ Add the module to your MagicMirror's `config.js` file:
 
 | Option | Description | Default |
 |--------|-------------|---------|
-| `updateInterval` | How often to update the display (in milliseconds) | `60000` (1 minute) |
 | `cats` | Array of cat names (strings) | `[]` (empty array) |
+| `undoTimeout` | Time in milliseconds to show undo option after clicking a tile. Set to `0` to disable undo functionality. | `10000` (10 seconds) |
 
 ## Development
 
