@@ -99,34 +99,35 @@ Module.register("MMM-CatClaws", {
 			tilesContainer.appendChild(tile);
 		});
 
-		// Add undo tile
-		const undoTile = document.createElement("div");
-		undoTile.className = "cat-tile undo-tile";
-		if (!this.undoVisible) {
-			undoTile.classList.add("hidden");
+		// Add undo tile only if undo functionality is enabled
+		if (this.config.undoTimeout !== 0) {
+			const undoTile = document.createElement("div");
+			undoTile.className = "cat-tile undo-tile";
+			if (!this.undoVisible) {
+				undoTile.classList.add("hidden");
+			}
+
+			const undoSymbol = document.createElement("div");
+			undoSymbol.className = "cat-name";
+			undoSymbol.innerHTML = "\u21BA";
+
+			const undoText = document.createElement("div");
+			undoText.className = "cat-date";
+			undoText.innerHTML = "Undo";
+
+			undoTile.appendChild(undoSymbol);
+			undoTile.appendChild(undoText);
+
+			// Add click handler for undo
+			const self = this;
+			undoTile.addEventListener("click", () => {
+				self.handleUndoClick();
+			});
+
+			// Store reference to the undo tile
+			this.undoTileElement = undoTile;
+			tilesContainer.appendChild(undoTile);
 		}
-
-		const undoSymbol = document.createElement("div");
-		undoSymbol.className = "cat-name";
-		undoSymbol.innerHTML = "\u21BA";
-
-		const undoText = document.createElement("div");
-		undoText.className = "cat-date";
-		undoText.innerHTML = "Undo";
-
-		undoTile.appendChild(undoSymbol);
-		undoTile.appendChild(undoText);
-
-		// Add click handler for undo
-		const self = this;
-		undoTile.addEventListener("click", () => {
-			self.handleUndoClick();
-		});
-
-		// Store reference to the undo tile
-		this.undoTileElement = undoTile;
-
-		tilesContainer.appendChild(undoTile);
 
 		wrapper.appendChild(tilesContainer);
 		return wrapper;
