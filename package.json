@@ -9,16 +9,16 @@
     "module",
     "smart mirror"
   ],
-  "author": "gmyers",
+  "author": "Gordon Myers",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gmyers/cat-claws.git"
+    "url": "git+https://github.com/soapergem/MMM-CatClaws.git"
   },
   "bugs": {
-    "url": "https://github.com/gmyers/cat-claws/issues"
+    "url": "https://github.com/soapergem/MMM-CatClaws/issues"
   },
-  "homepage": "https://github.com/gmyers/cat-claws#readme",
+  "homepage": "https://github.com/soapergem/MMM-CatClaws#readme",
   "engines": {
     "node": ">=14.0.0"
   },

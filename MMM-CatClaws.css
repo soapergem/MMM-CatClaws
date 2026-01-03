@@ -17,8 +17,8 @@
 }
 
 .mmm-catclaws .cat-tile {
-	width: 140px;
-	height: 140px;
+	width: var(--tile-size, 140px);
+	height: var(--tile-size, 140px);
 	background-color: rgba(0, 0, 0, 0.3);
 	border: 3px solid rgba(255, 255, 255, 0.4);
 	border-radius: 15px;

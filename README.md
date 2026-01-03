@@ -36,6 +36,7 @@ Add the module to your MagicMirror's `config.js` file:
     config: {
         cats: ["Mittens", "Shadow", "Whiskers"],  // Array of cat names
         overdueDays: 8,  // Days before a date is considered overdue
+        tileSize: 140,  // Size of each tile in pixels
         undoTimeout: 10000  // Time in ms to show undo option (0 to disable)
     }
 }
@@ -47,6 +48,7 @@ Add the module to your MagicMirror's `config.js` file:
 |--------|-------------|---------|
 | `cats` | Array of cat names (strings) | `[]` (empty array) |
 | `overdueDays` | Number of days before a date is considered overdue and displayed in red | `8` |
+| `tileSize` | Size of each tile in pixels (width and height) | `140` |
 | `undoTimeout` | Time in milliseconds to show undo option after clicking a tile. Set to `0` to disable undo functionality. | `10000` (10 seconds) |
 
 ## License

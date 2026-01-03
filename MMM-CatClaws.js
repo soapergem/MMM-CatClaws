@@ -2,6 +2,7 @@ Module.register("MMM-CatClaws", {
 	defaults: {
 		cats: [],
 		overdueDays: 8,
+		tileSize: 140,
 		undoTimeout: 10000
 	},
 
@@ -53,6 +54,7 @@ Module.register("MMM-CatClaws", {
 	getDom: function() {
 		const wrapper = document.createElement("div");
 		wrapper.className = "mmm-catclaws";
+		wrapper.style.setProperty("--tile-size", this.config.tileSize + "px");
 
 		if (!this.loaded) {
 			wrapper.innerHTML = "Loading...";
