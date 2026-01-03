@@ -41,12 +41,15 @@ module.exports = NodeHelper.create({
 	},
 
 	initializeData: function(cats) {
+		// Remove duplicates by converting to Set and back to array
+		const uniqueCats = [...new Set(cats)];
+
 		const data = this.loadData();
 		const today = new Date().toISOString().split('T')[0];
 		let modified = false;
 
 		// Add any new cats with today's date
-		cats.forEach(cat => {
+		uniqueCats.forEach(cat => {
 			if (!data[cat]) {
 				data[cat] = today;
 				modified = true;
@@ -55,7 +58,7 @@ module.exports = NodeHelper.create({
 
 		// Remove cats that are no longer in the config
 		Object.keys(data).forEach(cat => {
-			if (!cats.includes(cat)) {
+			if (!uniqueCats.includes(cat)) {
 				delete data[cat];
 				modified = true;
 			}
