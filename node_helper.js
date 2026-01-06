@@ -45,7 +45,9 @@ module.exports = NodeHelper.create({
 		const uniqueCats = [...new Set(cats)];
 
 		const data = this.loadData();
-		const today = new Date().toISOString().split('T')[0];
+		// Use local date instead of UTC to match frontend timezone
+		const now = new Date();
+		const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 		let modified = false;
 
 		// Add any new cats with today's date
@@ -78,10 +80,15 @@ module.exports = NodeHelper.create({
 		let catName, date;
 		if (typeof payload === 'string') {
 			catName = payload;
-			date = new Date().toISOString().split('T')[0];
+			// Use local date instead of UTC to match frontend timezone
+			const now = new Date();
+			date = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 		} else {
 			catName = payload.catName;
-			date = payload.date || new Date().toISOString().split('T')[0];
+			date = payload.date || (() => {
+				const now = new Date();
+				return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+			})();
 		}
 
 		data[catName] = date;
