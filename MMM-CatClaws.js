@@ -56,6 +56,21 @@ Module.register("MMM-CatClaws", {
 		wrapper.className = "mmm-catclaws";
 		wrapper.style.setProperty("--tile-size", this.config.tileSize + "px");
 
+		const catShapePath = "M 3 3 L 3 111 Q 3 123 15 123 L 111 123 Q 123 123 123 111 L 123 3 L 111 15 L 15 15 L 3 3 Z";
+		const createShapeSvg = () => {
+			const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+			svg.setAttribute("viewBox", "0 0 126 126");
+			svg.setAttribute("aria-hidden", "true");
+			svg.setAttribute("focusable", "false");
+
+			const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+			path.setAttribute("class", "cat-shape");
+			path.setAttribute("d", catShapePath);
+
+			svg.appendChild(path);
+			return svg;
+		};
+
 		if (!this.loaded) {
 			wrapper.innerHTML = "Loading...";
 			return wrapper;
@@ -75,6 +90,7 @@ Module.register("MMM-CatClaws", {
 		this.config.cats.forEach(cat => {
 			const tile = document.createElement("div");
 			tile.className = "cat-tile";
+			tile.appendChild(createShapeSvg());
 
 			const catName = document.createElement("div");
 			catName.className = "cat-name";
@@ -108,6 +124,7 @@ Module.register("MMM-CatClaws", {
 			if (!this.undoVisible) {
 				undoTile.classList.add("hidden");
 			}
+			undoTile.appendChild(createShapeSvg());
 
 			const undoSymbol = document.createElement("div");
 			undoSymbol.className = "cat-name";
