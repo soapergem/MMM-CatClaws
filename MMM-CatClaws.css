@@ -28,7 +28,7 @@
 	cursor: pointer;
 	position: relative;
 	/* Shift content down slightly to center within the visual shape (below the notches) */
-	padding-top: 28px;
+	padding-top: calc(var(--tile-size, 140px) * 0.25);
 	box-sizing: border-box;
 }
 
